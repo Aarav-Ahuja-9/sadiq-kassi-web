@@ -1,0 +1,91 @@
+import Link from 'next/link';
+import clientPromise from '@/lib/mongodb';
+
+const DEFAULT_PRODUCTS = [
+  {
+    _id: "traditional-lahori",
+    name: "Traditional Lahori Kassi",
+    price: 1500,
+    description: "Generational Punjab craftsmanship. Perfect balance and weight for construction and general soil work.",
+    image: "https://images.unsplash.com/photo-1592417817098-8f3d6eb18865?auto=format&fit=crop&q=80&w=800",
+    category: "General Purpose"
+  },
+  {
+    _id: "heavy-mattock",
+    name: "Heavy Duty Mattock",
+    price: 1850,
+    description: "Built for rocky, hard, and root-filled ground. Exceptional strength and impact resistance.",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=800",
+    category: "Heavy Duty"
+  },
+  {
+    _id: "farming-hoe",
+    name: "Precision Farming Hoe",
+    price: 1200,
+    description: "Designed for soft agricultural soil, weeding, and creating ridges. Light and precise.",
+    image: "https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&q=80&w=800",
+    category: "Agriculture"
+  }
+];
+
+// Data Fetching Function
+async function getProducts() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("sadiq-kassi");
+    const products = await db.collection("products").find({}).toArray();
+    
+    if (products && products.length > 0) {
+      return products.map(p => ({
+        ...p,
+        _id: p._id.toString()
+      }));
+    }
+  } catch (e) {
+    console.error("Failed to fetch products from MongoDB, using fallback:", e);
+  }
+  return DEFAULT_PRODUCTS;
+}
+
+export default async function ProductsPage() {
+  const products = await getProducts();
+
+  return (
+    <div className="animate-fade-in" style={{ paddingTop: '120px', minHeight: '100vh', paddingBottom: '100px' }}>
+      <section className="section-container">
+        
+        <div className="section-title active">
+          <h2>The Master Forge Collection</h2>
+          <p style={{color: 'var(--text-muted)', marginTop: '10px'}}>
+            Premium agricultural and construction tools built to last generations.
+          </p>
+          <div className="title-line" style={{marginTop: '20px', marginBottom: '40px'}}></div>
+        </div>
+        
+        <div className="products-grid">
+          {products.map((product: any) => (
+            <div key={product._id} className="product-card active">
+              <div className="product-img-container">
+                {product.image && (
+                  <img 
+                    src={product.image} 
+                    alt={product.name} 
+                  />
+                )}
+                <div className="img-overlay"><span className="overlay-btn">View Details</span></div>
+              </div>
+              <div className="product-info">
+                <h3>{product.name}</h3>
+                <p className="product-price">PKR {product.price}</p>
+                <p className="product-description" style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '8px', marginBottom: '8px' }}>
+                  {product.description}
+                </p>
+                <span className="category-tag" style={{fontSize: '10px', color: 'var(--accent)'}}>{product.category}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
