@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import clientPromise from '@/lib/mongodb';
+import ProductsCatalog from './ProductsCatalog';
+import { getLocalProducts } from '@/lib/localDb';
 
 const DEFAULT_PRODUCTS = [
   {
@@ -31,20 +32,23 @@ const DEFAULT_PRODUCTS = [
 // Data Fetching Function
 async function getProducts() {
   try {
+    if (!clientPromise) {
+      console.log("No MongoDB URI configured, using fallback products list.");
+      return [...DEFAULT_PRODUCTS, ...getLocalProducts()];
+    }
     const client = await clientPromise;
     const db = client.db("sadiq-kassi");
     const products = await db.collection("products").find({}).toArray();
     
-    if (products && products.length > 0) {
-      return products.map(p => ({
-        ...p,
-        _id: p._id.toString()
-      }));
-    }
+    const dbProductsMapped = products.map(p => ({
+      ...p,
+      _id: p._id.toString()
+    }));
+    return [...DEFAULT_PRODUCTS, ...dbProductsMapped, ...getLocalProducts()];
   } catch (e) {
     console.error("Failed to fetch products from MongoDB, using fallback:", e);
   }
-  return DEFAULT_PRODUCTS;
+  return [...DEFAULT_PRODUCTS, ...getLocalProducts()];
 }
 
 export default async function ProductsPage() {
@@ -52,40 +56,7 @@ export default async function ProductsPage() {
 
   return (
     <div className="animate-fade-in" style={{ paddingTop: '120px', minHeight: '100vh', paddingBottom: '100px' }}>
-      <section className="section-container">
-        
-        <div className="section-title active">
-          <h2>The Master Forge Collection</h2>
-          <p style={{color: 'var(--text-muted)', marginTop: '10px'}}>
-            Premium agricultural and construction tools built to last generations.
-          </p>
-          <div className="title-line" style={{marginTop: '20px', marginBottom: '40px'}}></div>
-        </div>
-        
-        <div className="products-grid">
-          {products.map((product: any) => (
-            <div key={product._id} className="product-card active">
-              <div className="product-img-container">
-                {product.image && (
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                  />
-                )}
-                <div className="img-overlay"><span className="overlay-btn">View Details</span></div>
-              </div>
-              <div className="product-info">
-                <h3>{product.name}</h3>
-                <p className="product-price">PKR {product.price}</p>
-                <p className="product-description" style={{ fontSize: '14px', color: 'var(--text-muted)', marginTop: '8px', marginBottom: '8px' }}>
-                  {product.description}
-                </p>
-                <span className="category-tag" style={{fontSize: '10px', color: 'var(--accent)'}}>{product.category}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ProductsCatalog initialProducts={products as any} />
     </div>
   );
 }

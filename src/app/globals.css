@@ -16,6 +16,25 @@
   --whatsapp: #25D366;
   --radius-lg: 24px;
   --radius-md: 16px;
+  --grid-dots: rgba(255, 255, 255, 0.03);
+  --anatomy-overlay: rgba(10, 10, 10, 0.45);
+  --anatomy-bg: #E5E5E5;
+}
+
+:root[data-theme="light"] {
+  --bg-main: #F5F5F7; 
+  --bg-card: #FFFFFF; 
+  --bg-glass: rgba(245, 245, 247, 0.85);
+  --accent: #B8860B; 
+  --accent-glow: rgba(184, 134, 11, 0.15);
+  --text-primary: #1D1D1F; 
+  --text-muted: #6E6E73;
+  --border: rgba(0, 0, 0, 0.08);
+  --success: #248A3D;
+  --error: #FF3B30;
+  --grid-dots: rgba(0, 0, 0, 0.03);
+  --anatomy-overlay: rgba(255, 255, 255, 0.02);
+  --anatomy-bg: #E5E5E5;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,8 +44,14 @@ body {
   color: var(--text-primary); 
   scroll-behavior: smooth; 
   -webkit-font-smoothing: antialiased; 
-  background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-image: radial-gradient(var(--grid-dots) 1px, transparent 1px);
   background-size: 40px 40px;
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+/* 🪵 GLOBAL THEME TRANSITIONS */
+.navbar, footer, .trust-card, .review-card, .product-card, .comparison-table, .faq-item, input, select, textarea, .pdp-container, .filter-controls-container, .category-pill, .search-input-premium, .sort-select-premium {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 /* 🪵 ANIMATIONS */
@@ -81,13 +106,13 @@ body {
 .terrain-card:hover .terrain-content p { color: #FFF; }
 
 /* 🪵 ANATOMY OF A PERFECT KASSI */
-.anatomy-container { position: relative; max-width: 1000px; margin: 0 auto; height: 500px; background: url('https://images.unsplash.com/photo-1592417817098-8f3d6eb18865?auto=format&fit=crop&q=80&w=1000') center/cover; border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; }
-.anatomy-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.5); }
-.pointer { position: absolute; background: var(--bg-glass); backdrop-filter: blur(10px); color: var(--text-primary); border: 1px solid var(--accent); padding: 12px 24px; font-weight: 500; font-size: 13px; border-radius: 50px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-.pointer::after { content: ''; position: absolute; width: 12px; height: 12px; background: var(--bg-main); border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); transform: rotate(45deg); }
-.p-1 { top: 20%; left: 10%; } .p-1::after { right: -7px; top: 15px; transform: rotate(-45deg); }
-.p-2 { bottom: 30%; right: 10%; } .p-2::after { left: -7px; top: 15px; transform: rotate(135deg); }
-.p-3 { top: 50%; left: 35%; } .p-3::after { bottom: -7px; left: 45%; transform: rotate(45deg); }
+.anatomy-container { position: relative; max-width: 1000px; margin: 0 auto; height: 550px; background: var(--anatomy-bg) url('/kassi-anatomy.png') center/contain no-repeat; border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; }
+.anatomy-overlay { position: absolute; inset: 0; background: var(--anatomy-overlay); }
+.pointer { position: absolute; background: var(--bg-glass); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--text-primary); border: 1px solid var(--accent); padding: 12px 24px; font-weight: 500; font-size: 13px; border-radius: 50px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+.pointer::after { content: ''; position: absolute; width: 12px; height: 12px; background: var(--bg-card); border-bottom: 1px solid var(--accent); border-right: 1px solid var(--accent); transform: rotate(45deg); }
+.p-1 { top: 18%; left: 15%; } .p-1::after { right: -7px; top: 15px; transform: rotate(-45deg); }
+.p-2 { top: 72%; left: 15%; } .p-2::after { right: -7px; top: 15px; transform: rotate(-45deg); }
+.p-3 { top: 45%; right: 15%; } .p-3::after { left: -7px; top: 15px; transform: rotate(135deg); }
 
 /* 🪵 MASTER FORGE CATALOG */
 .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
@@ -192,34 +217,37 @@ footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 5px;}
 /* 🪵 FLOATING CART POPUP (Matches your yellow box) */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideInRightFloat { 
-  from { transform: translateX(120%); opacity: 0; } 
-  to { transform: translateX(0); opacity: 1; } 
+  from { transform: translate3d(120%, 0, 0); opacity: 0; } 
+  to { transform: translate3d(0, 0, 0); opacity: 1; } 
 }
 
 .cart-overlay {
   position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.6); 
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   z-index: 2000;
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn 0.25s ease forwards;
 }
 
 .cart-drawer {
   position: fixed; 
-  top: 85px; /* Navbar ke bilkul niche se shuru */
-  right: 24px; /* Right edge se thoda gap (Floating effect) */
+  top: 85px; 
+  right: 24px; 
   width: calc(100% - 48px); 
   max-width: 420px; 
-  height: calc(100vh - 110px); /* Niche se bhi gap maintain karega */
-  background: rgba(20, 20, 20, 0.95); /* Premium glass dark background */
-  backdrop-filter: blur(20px);
+  height: calc(100vh - 110px); 
+  background: rgba(20, 20, 20, 0.96); 
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   box-shadow: 0 40px 100px rgba(0,0,0,0.8);
   z-index: 2001;
   display: flex; flex-direction: column;
-  animation: slideInRightFloat 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: slideInRightFloat 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   overflow: hidden;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .cart-header {
@@ -397,4 +425,52 @@ footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 5px;}
   border-radius: var(--radius-lg);
   border: 1px dashed var(--border);
   color: var(--text-muted);
+}
+
+/* 🪵 CUSTOM ANIMATIONS & PULSES */
+@keyframes floatUpEmber {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50vh) translateX(15px);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-90vh) translateX(-15px);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+.pointer {
+  animation: pulseGlow 2s infinite;
+}
+
+/* 🪵 ANATOMY TOOLTIPS SMOOTH TRANSITIONS */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(-50%, -5px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(-50%, -15px, 0);
+  }
+}
+
+.anatomy-tooltip-card {
+  animation: tooltipFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
