@@ -799,7 +799,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
                   <img
                     src={recommendedProduct.image}
                     alt={recommendedProduct.name}
