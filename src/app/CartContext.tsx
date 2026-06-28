@@ -11,6 +11,7 @@ export const useCart = () => useContext(CartContext);
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<any[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [toast, setToast] = useState({ show: false, message: '', type: '' });
   const [theme, setTheme] = useState('dark');
 
@@ -31,10 +32,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.setAttribute('data-theme', nextTheme);
   };
 
-  // Lock scrolling when cart is open
+  // Lock scrolling when cart or mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = isCartOpen ? 'hidden' : 'unset';
-  }, [isCartOpen]);
+    document.body.style.overflow = (isCartOpen || isMobileMenuOpen) ? 'hidden' : 'unset';
+  }, [isCartOpen, isMobileMenuOpen]);
 
   const showToast = (message: string, type: string) => {
     setToast({ show: true, message, type });
@@ -124,6 +125,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           <button onClick={() => setIsCartOpen(true)} className="cart-btn">
             Cart {cart.length > 0 && <span className="cart-badge">{cart.length}</span>}
           </button>
+
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="hamburger-btn" aria-label="Toggle Navigation Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
       </nav>
 
@@ -186,6 +195,51 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
                     </Link>
                   </div>
                 </div>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* 🌟 GLOBAL FLOATING MOBILE MENU DRAWER */}
+      {isMobileMenuOpen && (
+        <>
+          <div className="mobile-drawer-overlay" onClick={() => setIsMobileMenuOpen(false)}></div>
+          <div className="mobile-drawer">
+            <div className="mobile-drawer-header">
+              <Link href="/" className="nav-logo" onClick={() => setIsMobileMenuOpen(false)} style={{textDecoration: 'none'}}>
+                <h1>SADIQ KASSI</h1>
+                <span>Premium Manufacturers</span>
+              </Link>
+              <button className="close-cart-btn" onClick={() => setIsMobileMenuOpen(false)}>×</button>
+            </div>
+            <div className="mobile-drawer-links">
+              <Link href="/products" onClick={() => setIsMobileMenuOpen(false)}>Shop</Link>
+              <Link href="/#faqs" onClick={() => setIsMobileMenuOpen(false)}>FAQs</Link>
+              {user ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '10px' }}>
+                  <span style={{ fontSize: '14px', color: 'var(--accent)', fontWeight: 600 }}>Hello, {user.name}</span>
+                  <button 
+                    onClick={async () => {
+                      await signOut();
+                      window.location.reload();
+                    }} 
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--text-muted)',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      textAlign: 'left',
+                      padding: 0
+                    }}
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <Link href="/signin" onClick={() => setIsMobileMenuOpen(false)}>Sign In</Link>
               )}
             </div>
           </div>
