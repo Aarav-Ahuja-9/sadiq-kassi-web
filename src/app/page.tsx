@@ -181,7 +181,7 @@ export default function Home() {
           <h2>Anatomy of a Perfect Kassi</h2>
           <div className="title-line"></div>
         </div>
-        <div className="anatomy-container reveal" style={{ position: 'relative' }}>
+        <div className="anatomy-container reveal hide-on-mobile" style={{ position: 'relative' }}>
           <div
             className="pointer p-1"
             onMouseEnter={() => setHoveredPoint(1)}
@@ -270,6 +270,22 @@ export default function Home() {
                 <strong>Secure Wedge Lock:</strong> Double-locking iron pin prevents the spade head from slipping or loosening under continuous heavy load.
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Mobile View Card List */}
+        <div className="anatomy-mobile-list reveal hide-on-desktop">
+          <div className="anatomy-mobile-card">
+            <h3>High-Carbon Heat-Treated Blade</h3>
+            <p><strong>Heat-Treated Steel:</strong> Oil-quenched for resilience, achieving 58 HRC. Never chips or loses its shape on rocky ground.</p>
+          </div>
+          <div className="anatomy-mobile-card">
+            <h3>Shock-Absorbing Shisham Wood</h3>
+            <p><strong>Premium Shisham wood:</strong> Known for extreme shock resistance. Kiln-dried to maintain perfect grip without splintering.</p>
+          </div>
+          <div className="anatomy-mobile-card">
+            <h3>Reinforced Iron Wedge</h3>
+            <p><strong>Secure Wedge Lock:</strong> Double-locking iron pin prevents the spade head from slipping or loosening under continuous heavy load.</p>
           </div>
         </div>
       </section>
