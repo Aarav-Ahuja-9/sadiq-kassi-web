@@ -804,3 +804,17 @@ footer p { color: var(--text-muted); font-size: 13px; margin-bottom: 5px;}
     font-size: 14px;
   }
 }
+
+.responsive-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 50px;
+}
+
+@media (max-width: 768px) {
+  .responsive-grid-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 24px 16px !important;
+  }
+}

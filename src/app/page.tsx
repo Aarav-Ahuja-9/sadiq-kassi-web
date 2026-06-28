@@ -475,16 +475,13 @@ export default function Home() {
           <div className="title-line" style={{ marginTop: '20px' }}></div>
         </div>
 
-        <div style={{
+        <div className="reveal responsive-grid-container" style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border)',
           borderRadius: 'var(--radius-lg)',
           padding: '40px 5%',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '60px',
           alignItems: 'center'
-        }} className="reveal">
+        }}>
 
           {/* Left: Controls & Stats */}
           <div>
@@ -654,16 +651,13 @@ export default function Home() {
           <div className="title-line" style={{ marginTop: '20px' }}></div>
         </div>
 
-        <div style={{
+        <div className="reveal responsive-grid-container" style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border)',
           borderRadius: 'var(--radius-lg)',
           padding: '40px 5%',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '50px',
           alignItems: 'center'
-        }} className="reveal">
+        }}>
 
           {/* Questions Panel */}
           <div>
