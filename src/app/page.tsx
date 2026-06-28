@@ -301,21 +301,21 @@ export default function Home() {
         </div>
 
         {/* Timeline Nodes */}
-        <div className="reveal" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        <div className="reveal" style={{ maxWidth: '1000px', margin: '0 auto', overflowX: 'auto', paddingBottom: '10px' }}>
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             position: 'relative',
             marginBottom: '50px',
             padding: '0 20px',
-            overflowX: 'auto'
+            minWidth: '600px'
           }}>
             {/* Timeline Line */}
             <div style={{
               position: 'absolute',
               top: '25px',
-              left: '40px',
-              right: '40px',
+              left: '45px',
+              right: '45px',
               height: '2px',
               background: 'var(--border)',
               zIndex: 0
@@ -324,7 +324,7 @@ export default function Home() {
             <div style={{
               position: 'absolute',
               top: '25px',
-              left: '40px',
+              left: '45px',
               width: `${activeStep * 22}%`,
               height: '2px',
               background: 'var(--accent)',
@@ -349,7 +349,8 @@ export default function Home() {
                     flexDirection: 'column',
                     alignItems: 'center',
                     width: '80px',
-                    outline: 'none'
+                    outline: 'none',
+                    flexShrink: 0
                   }}
                 >
                   <div style={{
